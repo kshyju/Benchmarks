@@ -3,30 +3,29 @@ using System.Text.RegularExpressions;
 
 namespace Benchmarks.ConsoleApp
 {
-    // [MemoryDiagnoser]
     [HideColumns("Error", "StdDev", "Median", "RatioSD")]
     public class RegexBenchmarks
     {
         [Benchmark(Baseline = true)]
-        public Regex RegexConstructor() => new MyClassUsingRegexConstructor().ExpressionRegex;
+        public Regex RegexConstructor() => new UsingRegexConstructor().ExpressionRegex;
 
         [Benchmark]
-        public Regex SourceGenRegex() => new MyClassUsingSourceGenRegex().ExpressionRegex;
+        public Regex SourceGenRegex() => new UsingSourceGenRegex().ExpressionRegex;
     }
 
-    internal class MyClassUsingRegexConstructor
+    internal class UsingRegexConstructor
     {
         public readonly Regex ExpressionRegex;
-        public MyClassUsingRegexConstructor()
+        public UsingRegexConstructor()
         {
             ExpressionRegex = new Regex(@"{(.*?)\}", RegexOptions.Compiled | RegexOptions.IgnoreCase);
         }
     }
 
-    internal class MyClassUsingSourceGenRegex
+    internal class UsingSourceGenRegex
     {
         public readonly Regex ExpressionRegex;
-        public MyClassUsingSourceGenRegex()
+        public UsingSourceGenRegex()
         {
             ExpressionRegex = RegularExpressions.FunctionBindingAttributeExpressionRegex();
         }
