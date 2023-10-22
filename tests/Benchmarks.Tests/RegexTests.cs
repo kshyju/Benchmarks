@@ -11,10 +11,11 @@ namespace Benchmarks.Tests
             string input = "Hello {foo} and {bar}!";
             var regexBenchmarks = new RegexBenchmarks();
 
-            var outputOld = regexBenchmarks.RegexConstructor().Count(input);
-            var outputNew = regexBenchmarks.SourceGenRegex().Count(input);
+            var regexOld = regexBenchmarks.RegexConstructor();
+            var regexNew = regexBenchmarks.SourceGenRegex();
 
-            Assert.Equal(outputOld, outputNew);
+            Assert.Equal(regexOld.IsMatch(input), regexNew.IsMatch(input));
+            Assert.Equal(regexOld.Count(input), regexNew.Count(input));
         }
     }
 }
