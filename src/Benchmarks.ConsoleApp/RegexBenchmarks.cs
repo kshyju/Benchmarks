@@ -33,7 +33,7 @@ namespace Benchmarks.ConsoleApp
 
     internal partial class RegularExpressions
     {
-        [GeneratedRegex("{(.*?)\\}", RegexOptions.IgnoreCase)]
+        [GeneratedRegex(@"{(.*?)\}", RegexOptions.IgnoreCase)]
         internal static partial Regex FunctionBindingAttributeExpressionRegex();
     }
 }
