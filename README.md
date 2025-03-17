@@ -15,10 +15,10 @@ Unknown processor
 
 
 ```
-| Method                                                 | Mean     | Error    | StdDev   | Ratio | RatioSD | Gen0   | Allocated | Alloc Ratio |
-|------------------------------------------------------- |---------:|---------:|---------:|------:|--------:|-------:|----------:|------------:|
-| UsingNewtonsoftJsonNet                                 | 96.89 μs | 2.095 μs | 6.111 μs |  1.00 |    0.09 | 0.7324 |  45.81 KB |        1.00 |
-| BuildUsingSystemTextJsonDocumentAndReadText            | 82.56 μs | 1.561 μs | 1.384 μs |  0.86 |    0.06 | 0.2441 |     21 KB |        0.46 |
-| BuildUsingSystemTextJsonDocument                       | 74.73 μs | 1.482 μs | 2.856 μs |  0.77 |    0.06 |      - |   5.36 KB |        0.12 |
-| BuildUsingSystemTextJsonUtf8JsonReaderDirectly         | 67.70 μs | 1.341 μs | 2.708 μs |  0.70 |    0.06 |      - |   3.07 KB |        0.07 |
-| BuildUsingSystemTextJsonUtf8JsonReaderWithJsonDocument | 76.37 μs | 1.514 μs | 2.768 μs |  0.79 |    0.06 |      - |   3.14 KB |        0.07 |
+| Method                                                 | Mean      | Ratio | Gen0   | Allocated | Alloc Ratio |
+|------------------------------------------------------- |----------:|------:|-------:|----------:|------------:|
+| UsingNewtonsoftJsonNet                                 | 101.39 μs |  1.00 | 0.7324 |  45.81 KB |        1.00 |
+| BuildUsingSystemTextJsonDocumentAndReadText            |  82.01 μs |  0.81 | 0.2441 |     21 KB |        0.46 |
+| BuildUsingSystemTextJsonDocument                       |  72.38 μs |  0.72 |      - |   5.36 KB |        0.12 |
+| BuildUsingSystemTextJsonUtf8JsonReaderDirectly         |  62.28 μs |  0.62 |      - |   3.07 KB |        0.07 |
+| BuildUsingSystemTextJsonUtf8JsonReaderWithJsonDocument |  70.67 μs |  0.70 |      - |   3.14 KB |        0.07 |

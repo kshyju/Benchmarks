@@ -2,6 +2,7 @@
 
 namespace Benchmarks.ConsoleApp
 {
+    [HideColumns("Error", "StdDev", "Median", "RatioSD")]
     [MemoryDiagnoser]
     public class JsonSerializationBenchmarks
     {
