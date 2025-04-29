@@ -3,23 +3,31 @@ using Benchmarks.ConsoleApp;
 
 namespace Benchmarks.Tests
 {
-    public class JsonTests
+    public class StringTests
     {
-        [Fact]
-        public void EnsureResultsAreSame()
+        [Theory]
+        [InlineData("cat,dog,fish", "dog", ',', StringComparison.Ordinal, true)]
+        [InlineData("cat,dog,fish", "Dog", ',', StringComparison.Ordinal, false)]
+        [InlineData("cat,dog,fish", "bird", ',', StringComparison.Ordinal, false)]
+        [InlineData("dog", "dog", ',', StringComparison.Ordinal, true)]
+        [InlineData("dog", "cat", ',', StringComparison.Ordinal, false)]
+        [InlineData("", "dog", ',', StringComparison.Ordinal, false)]
+        [InlineData(null, "dog", ',', StringComparison.Ordinal, false)]
+        [InlineData("cat;dog;fish", "dog", ',', StringComparison.Ordinal, false)] 
+        [InlineData("cat;dog;fish", "dog", ';', StringComparison.Ordinal, true)] 
+        [InlineData("  cat ,  dog ,fish  ", "dog", ',', StringComparison.Ordinal, true)] 
+        [InlineData("cat,dog,fish", "Dog", ',', StringComparison.OrdinalIgnoreCase, true)]
+        [InlineData("cat,dog,fish", "FISH", ',', StringComparison.OrdinalIgnoreCase, true)]
+        [InlineData("cat,dog,fish", "BIRD", ',', StringComparison.OrdinalIgnoreCase, false)]
+        public void TestContainsDelimitedValue(
+                string input,
+                string target,
+                char delimiter,
+                StringComparison comparison,
+                bool expected)
         {
-            var bechmarkManager = new JsonSerializationBenchmarks();
-
-            var a = bechmarkManager.UsingNewtonsoftJsonNet();
-            var e = bechmarkManager.BuildUsingSystemTextJsonDocumentAndReadText();
-            var b = bechmarkManager.BuildUsingSystemTextJsonDocument();
-            var c = bechmarkManager.BuildUsingSystemTextJsonUtf8JsonReaderWithJsonDocument();
-            var d = bechmarkManager.BuildUsingSystemTextJsonUtf8JsonReaderDirectly();
-
-            Assert.Equal(a.Language, b.Language);
-            Assert.Equal(a.Language, c.Language);
-            Assert.Equal(a.Language, d.Language);
-            Assert.Equal(a.Language, e.Language);
+            var result = input.ContainsDelimitedValue(target, delimiter, comparison);
+            Assert.Equal(expected, result);
         }
     }
 }
