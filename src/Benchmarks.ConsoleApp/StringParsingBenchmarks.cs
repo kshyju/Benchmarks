@@ -8,7 +8,21 @@ using System.Threading.Tasks;
 
 namespace Benchmarks.ConsoleApp
 {
+    [MemoryDiagnoser]
+    public class DictionaryCapacityBenchmark
+    {
+        [Benchmark]
+        public Dictionary<string, object> DefaultConstructor()
+        {
+            return new Dictionary<string, object>();
+        }
 
+        [Benchmark]
+        public Dictionary<string, object> ExplicitZeroCapacity()
+        {
+            return new Dictionary<string, object>(0);
+        }
+    }
 
     [MemoryDiagnoser]
     public class StringParsingBenchmarks
