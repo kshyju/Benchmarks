@@ -11,14 +11,6 @@
 
   <ItemGroup>
     <PackageReference Include="BenchmarkDotNet" Version="0.14.0" />
-    <PackageReference Include="Microsoft.Extensions.Primitives" Version="8.0.0" />
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Update="worker.config.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
   </ItemGroup>
 
 </Project>
