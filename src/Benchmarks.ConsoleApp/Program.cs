@@ -1,12 +1,11 @@
 ﻿using BenchmarkDotNet.Running;
 
-namespace Benchmarks.ConsoleApp
+namespace Benchmarks.ConsoleApp;
+
+public class Program
 {
-    internal class Program
+    public static void Main(string[] args)
     {
-        static void Main(string[] args)
-        {
-            var summary = BenchmarkRunner.Run<RpcConversionBenchmark>();
-        }
+        var summary = BenchmarkRunner.Run<StringSplitBenchmarks>();
     }
 }

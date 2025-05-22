@@ -27,5 +27,8 @@ jobs:
       - name: Build
         run: dotnet build --configuration Release
 
+      - name: Run Tests
+        run: dotnet test --configuration Release --no-build
+
       - name: Run Benchmarks
         run: dotnet run --project src/Benchmarks.ConsoleApp/Benchmarks.ConsoleApp.csproj --configuration Release

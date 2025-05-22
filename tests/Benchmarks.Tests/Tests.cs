@@ -1,39 +1,39 @@
 
 using Benchmarks.ConsoleApp;
 
-namespace Benchmarks.Tests
+namespace Benchmarks.Tests;
+
+public class Tests
 {
-    public class Tests
+    [Theory]
+    [InlineData("", "EnableWorkerIndexing")]
+    [InlineData(null, "EnableWorkerIndexing")]
+    [InlineData("EnableWorkerIndexing", "EnableWorkerIndexing")]
+    [InlineData("featureA,featureB,featureC", "featureC")]
+    [InlineData("featureA,featureB,featureC", "featureA")]
+    [InlineData("featureA,featureB,featureC", "featureY")]
+    [InlineData("featureA,featureB,featureC", "featureD")]
+    [InlineData("featureA,featureB,featureC", "featureA,featureB")]
+    [InlineData("featureA , featureB , featureC", "featureB")]
+    [InlineData("FEATUREA,featureB", "featurea")]
+
+    public void EnsureItWorks(string? input, string value)
     {
-        [Fact]
-        public void Test1()
-        {
-            var dict = new Dictionary<string, object>();
-            for (int i = 0; i < 50; i++)
-            {
-                dict[$"Header-{i}"] = $"Value-{i}";
-            }
+        var expected = StringUtils.ContainsUsingStringSplit(input ?? string.Empty, value);
+        var actual = StringUtils.ContainsToken(input ?? string.Empty, value);
+            
+        Assert.Equal(expected, actual);
+    }
 
-            var original = RpcMessageConversionExtensions.ToRpcDefault(dict);
-            var cached = RpcMessageConversionExtensions.ToRpcDefaultWithCachedSerializer(dict);
-
-            Assert.Equal(original, cached);
-        }
-
-        [Fact]
-        public void Test2()
-        {
-            var dict = new Dictionary<string, object>
-        {
-            { "foo", 42 },
-            { "bar", 3.14 },
-            { "Nested", new Dictionary<string, string> { { "one", "two and three" } } }
-        };
-
-            var original = RpcMessageConversionExtensions.ToRpcDefault(dict);
-            var cached = RpcMessageConversionExtensions.ToRpcDefaultWithCachedSerializer(dict);
-
-            Assert.Equal(original, cached);
-        }
+    [Theory]
+    [InlineData("one|two|three", "two", '|')]
+    [InlineData("one;two;three", "three", ';')]
+    [InlineData("one/two/three", "four", '/')]
+    public void DifferentDelimiters(string input, string value, char delimiter)
+    {
+        var expected = StringUtils.ContainsUsingStringSplit(input ?? string.Empty, value, delimiter);
+        var actual = StringUtils.ContainsToken(input ?? string.Empty, value, delimiter);
+            
+        Assert.Equal(expected, actual);
     }
 }
