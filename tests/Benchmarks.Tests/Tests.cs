@@ -21,8 +21,10 @@ public class Tests
     {
         var expected = StringUtils.ContainsUsingStringSplit(input ?? string.Empty, value);
         var actual = StringUtils.ContainsToken(input ?? string.Empty, value);
-            
+        var actualInline = StringUtils.ContainsToken_CheckInline(input ?? string.Empty, value);
+
         Assert.Equal(expected, actual);
+        Assert.Equal(expected, actualInline);
     }
 
     [Theory]

@@ -46,4 +46,36 @@ public static class StringUtils
 
         return false;
     }
+
+    public static bool ContainsToken_CheckInline(string delimitedString, string searchToken, char separator = ',', StringComparison comparisonType = StringComparison.OrdinalIgnoreCase)
+    {
+        if (string.IsNullOrEmpty(delimitedString) || string.IsNullOrEmpty(searchToken))
+        {
+            return false;
+        }
+
+        var remaining = delimitedString.AsSpan();
+        var searchSpan = searchToken.AsSpan();
+
+        while (!remaining.IsEmpty)
+        {
+            var separatorIndex = remaining.IndexOf(separator);
+
+            if (separatorIndex >= 0)
+            {
+                if (remaining.Slice(0, separatorIndex).Equals(searchSpan, comparisonType))
+                {
+                    return true;
+                }
+
+                remaining = remaining.Slice(separatorIndex + 1);
+            }
+            else
+            {
+                return remaining.Equals(searchSpan, comparisonType);
+            }
+        }
+
+        return false;
+    }
 }
