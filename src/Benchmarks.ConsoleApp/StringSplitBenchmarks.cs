@@ -51,4 +51,19 @@ public class StringSplitBenchmarks
 
     [Benchmark]
     public bool ContainsToken_Empty() => StringUtils.ContainsToken(_emptyFlags, TargetFlag);
+
+    [Benchmark]
+    public bool ContainsTokenWithSearchValues_Short_Present() => StringUtils.ContainsTokenWithSearchValues(_shortFlagsPresent, TargetFlag);
+
+    [Benchmark]
+    public bool ContainsTokenWithSearchValues_Short_Absent() => StringUtils.ContainsTokenWithSearchValues(_shortFlagsAbsent, TargetFlag);
+
+    [Benchmark]
+    public bool ContainsTokenWithSearchValues_Medium_Present() => StringUtils.ContainsTokenWithSearchValues(_mediumFlagsPresent, TargetFlag);
+
+    [Benchmark]
+    public bool ContainsTokenWithSearchValues_Medium_Absent() => StringUtils.ContainsTokenWithSearchValues(_mediumFlagsAbsent, TargetFlag);
+
+    [Benchmark]
+    public bool ContainsTokenWithSearchValues_Empty() => StringUtils.ContainsTokenWithSearchValues(_emptyFlags, TargetFlag);
 }

@@ -1,4 +1,6 @@
-﻿namespace Benchmarks.ConsoleApp;
+﻿using System.Buffers;
+
+namespace Benchmarks.ConsoleApp;
 
 public static class StringUtils
 {
@@ -25,6 +27,42 @@ public static class StringUtils
         while (!remaining.IsEmpty)
         {
             int separatorIndex = remaining.IndexOf(separator);
+            ReadOnlySpan<char> currentToken;
+
+            if (separatorIndex >= 0)
+            {
+                currentToken = remaining.Slice(0, separatorIndex);
+                remaining = remaining.Slice(separatorIndex + 1);
+            }
+            else
+            {
+                currentToken = remaining;
+                remaining = default;
+            }
+
+            if (currentToken.Equals(searchSpan, comparisonType))
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public static bool ContainsTokenWithSearchValues(string delimitedString, string searchToken, char separator = ',', StringComparison comparisonType = StringComparison.OrdinalIgnoreCase)
+    {
+        if (string.IsNullOrEmpty(delimitedString) || string.IsNullOrEmpty(searchToken))
+        {
+            return false;
+        }
+
+        var separators = SearchValues.Create([separator]);
+        var remaining = delimitedString.AsSpan();
+        var searchSpan = searchToken.AsSpan();
+
+        while (!remaining.IsEmpty)
+        {
+            int separatorIndex = remaining.IndexOfAny(separators);
             ReadOnlySpan<char> currentToken;
 
             if (separatorIndex >= 0)

@@ -1,4 +1,3 @@
-
 using Benchmarks.ConsoleApp;
 
 namespace Benchmarks.Tests;
@@ -21,8 +20,10 @@ public class Tests
     {
         var expected = StringUtils.ContainsUsingStringSplit(input ?? string.Empty, value);
         var actual = StringUtils.ContainsToken(input ?? string.Empty, value);
-            
+        var actualWithSearchValues = StringUtils.ContainsTokenWithSearchValues(input ?? string.Empty, value);
+        
         Assert.Equal(expected, actual);
+        Assert.Equal(expected, actualWithSearchValues);
     }
 
     [Theory]
@@ -33,7 +34,9 @@ public class Tests
     {
         var expected = StringUtils.ContainsUsingStringSplit(input ?? string.Empty, value, delimiter);
         var actual = StringUtils.ContainsToken(input ?? string.Empty, value, delimiter);
-            
+        var actualWithSearchValues = StringUtils.ContainsTokenWithSearchValues(input ?? string.Empty, value, delimiter);
+        
         Assert.Equal(expected, actual);
+        Assert.Equal(expected, actualWithSearchValues);
     }
 }
