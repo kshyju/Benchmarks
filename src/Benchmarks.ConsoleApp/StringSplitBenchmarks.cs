@@ -22,32 +22,17 @@ public class StringSplitBenchmarks
         _emptyFlags = string.Empty;
     }
 
-    [Benchmark]
-    public bool ContainsUsingStringSplit_Short_Present() => StringUtils.ContainsUsingStringSplit(_shortFlagsPresent, TargetFlag);
-
     [Benchmark(Baseline = true)]
     public bool ContainsToken_Short_Present() => StringUtils.ContainsToken(_shortFlagsPresent, TargetFlag);
-
-    [Benchmark]
-    public bool ContainsUsingStringSplit_Short_Absent() => StringUtils.ContainsUsingStringSplit(_shortFlagsAbsent, TargetFlag);
 
     [Benchmark]
     public bool ContainsToken_Short_Absent() => StringUtils.ContainsToken(_shortFlagsAbsent, TargetFlag);
 
     [Benchmark]
-    public bool ContainsUsingStringSplit_Medium_Present() => StringUtils.ContainsUsingStringSplit(_mediumFlagsPresent, TargetFlag);
-
-    [Benchmark]
     public bool ContainsToken_Medium_Present() => StringUtils.ContainsToken(_mediumFlagsPresent, TargetFlag);
 
     [Benchmark]
-    public bool ContainsUsingStringSplit_Medium_Absent() => StringUtils.ContainsUsingStringSplit(_mediumFlagsAbsent, TargetFlag);
-
-    [Benchmark]
     public bool ContainsToken_Medium_Absent() => StringUtils.ContainsToken(_mediumFlagsAbsent, TargetFlag);
-
-    [Benchmark]
-    public bool ContainsUsingStringSplit_Empty() => StringUtils.ContainsUsingStringSplit(_emptyFlags, TargetFlag);
 
     [Benchmark]
     public bool ContainsToken_Empty() => StringUtils.ContainsToken(_emptyFlags, TargetFlag);
