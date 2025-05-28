@@ -2,7 +2,7 @@
 
 public static class StringUtils
 {
-    public static bool ContainsUsingStringSplit(string featureFlags, string tokenToSearchFor,char separator = ',')
+    public static bool ContainsUsingStringSplit(string featureFlags, string tokenToSearchFor, char separator = ',')
     {
         if (!string.IsNullOrEmpty(featureFlags))
         {
@@ -47,11 +47,16 @@ public static class StringUtils
         return false;
     }
 
-    public static bool ContainsToken_CheckInline(string delimitedString, string searchToken, char separator = ',', StringComparison comparisonType = StringComparison.OrdinalIgnoreCase)
+    public static bool ContainsTokenWithValidation(string delimitedString, string searchToken, char separator = ',', StringComparison comparisonType = StringComparison.OrdinalIgnoreCase)
     {
         if (string.IsNullOrEmpty(delimitedString) || string.IsNullOrEmpty(searchToken))
         {
             return false;
+        }
+
+        if (searchToken.Contains(separator))
+        {
+            throw new ArgumentException($"The search token must not contain the separator character '{separator}'.", nameof(searchToken));
         }
 
         var remaining = delimitedString.AsSpan();
@@ -59,20 +64,23 @@ public static class StringUtils
 
         while (!remaining.IsEmpty)
         {
-            var separatorIndex = remaining.IndexOf(separator);
+            int separatorIndex = remaining.IndexOf(separator);
+            ReadOnlySpan<char> currentToken;
 
             if (separatorIndex >= 0)
             {
-                if (remaining.Slice(0, separatorIndex).Equals(searchSpan, comparisonType))
-                {
-                    return true;
-                }
-
+                currentToken = remaining.Slice(0, separatorIndex);
                 remaining = remaining.Slice(separatorIndex + 1);
             }
             else
             {
-                return remaining.Equals(searchSpan, comparisonType);
+                currentToken = remaining;
+                remaining = default;
+            }
+
+            if (currentToken.Equals(searchSpan, comparisonType))
+            {
+                return true;
             }
         }
 

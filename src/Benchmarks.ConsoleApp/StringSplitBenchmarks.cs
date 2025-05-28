@@ -26,29 +26,29 @@ public class StringSplitBenchmarks
     public bool ContainsToken_Short_Present() => StringUtils.ContainsToken(_shortFlagsPresent, TargetFlag);
 
     [Benchmark]
-    public bool ContainsToken_CheckInline_Short_Present() => StringUtils.ContainsToken_CheckInline(_shortFlagsPresent, TargetFlag);
+    public bool ContainsTokenWithValidation_Short_Present() => StringUtils.ContainsTokenWithValidation(_shortFlagsPresent, TargetFlag);
 
     [Benchmark]
     public bool ContainsToken_Short_Absent() => StringUtils.ContainsToken(_shortFlagsAbsent, TargetFlag);
 
     [Benchmark]
-    public bool ContainsToken_CheckInline_Short_Absent() => StringUtils.ContainsToken_CheckInline(_shortFlagsAbsent, TargetFlag);
+    public bool ContainsTokenWithValidation_Short_Absent() => StringUtils.ContainsTokenWithValidation(_shortFlagsAbsent, TargetFlag);
 
     [Benchmark]
     public bool ContainsToken_Medium_Present() => StringUtils.ContainsToken(_mediumFlagsPresent, TargetFlag);
 
     [Benchmark]
-    public bool ContainsToken_CheckInline_Medium_Present() => StringUtils.ContainsToken_CheckInline(_mediumFlagsPresent, TargetFlag);
+    public bool ContainsTokenWithValidation_Medium_Present() => StringUtils.ContainsTokenWithValidation(_mediumFlagsPresent, TargetFlag);
 
     [Benchmark]
     public bool ContainsToken_Medium_Absent() => StringUtils.ContainsToken(_mediumFlagsAbsent, TargetFlag);
 
     [Benchmark]
-    public bool ContainsToken_CheckInline_Medium_Absent() => StringUtils.ContainsToken_CheckInline(_mediumFlagsAbsent, TargetFlag);
+    public bool ContainsTokenWithValidation_Medium_Absent() => StringUtils.ContainsTokenWithValidation(_mediumFlagsAbsent, TargetFlag);
 
     [Benchmark]
     public bool ContainsToken_Empty() => StringUtils.ContainsToken(_emptyFlags, TargetFlag);
 
     [Benchmark]
-    public bool ContainsToken_CheckInline_Empty() => StringUtils.ContainsToken_CheckInline(_emptyFlags, TargetFlag);
+    public bool ContainsTokenWithValidation_Empty() => StringUtils.ContainsTokenWithValidation(_emptyFlags, TargetFlag);
 }
