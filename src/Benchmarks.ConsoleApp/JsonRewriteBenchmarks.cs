@@ -49,61 +49,6 @@ public class JsonRewriteBenchmarks
         return json;
     }
 
-
-    public static string SanitizePropertyValueUsingSTJ(string json, string propertyName)
-    {
-        // Quick check to avoid unnecessary parsing if the property doesn't exist
-        if (!json.Contains($"\"{propertyName}\"", StringComparison.OrdinalIgnoreCase))
-        {
-            return json;
-        }
-
-        using var document = JsonDocument.Parse(json);
-        var root = document.RootElement;
-
-        JsonProperty? foundProperty = null;
-        foreach (var prop in root.EnumerateObject())
-        {
-            if (string.Equals(prop.Name, propertyName, StringComparison.OrdinalIgnoreCase))
-            {
-                foundProperty = prop;
-                break;
-            }
-        }
-
-        // If property not found, return original JSON
-        if (!foundProperty.HasValue)
-        {
-            return json;
-        }
-
-        using var stream = new MemoryStream();
-        using var writer = new Utf8JsonWriter(stream, new JsonWriterOptions
-        {
-            Encoder = System.Text.Encodings.Web.JavaScriptEncoder.UnsafeRelaxedJsonEscaping
-        });
-
-        writer.WriteStartObject();
-
-        foreach (var property in root.EnumerateObject())
-        {
-            if (string.Equals(property.Name, propertyName, StringComparison.OrdinalIgnoreCase))
-            {
-                // Use the original property name from JSON to preserve casing
-                writer.WriteString(property.Name, Sanitizer.Sanitize(property.Value.GetString()));
-            }
-            else
-            {
-                property.WriteTo(writer);
-            }
-        }
-
-        writer.WriteEndObject();
-        writer.Flush();
-
-        return Encoding.UTF8.GetString(stream.ToArray());
-    }
-
     [Benchmark]
     public void SanitizeUsingJObject_WithConnection()
     {
@@ -118,7 +63,7 @@ public class JsonRewriteBenchmarks
     {
         foreach (var json in _testJsons)
         {
-            SanitizePropertyValueUsingSTJ(json, _propertyName);
+            MetadataJsonHelper.SanitizePropertyValueInJson(json, _propertyName);
         }
     }
 
@@ -131,7 +76,7 @@ public class JsonRewriteBenchmarks
     [Benchmark]
     public string SanitizeUsingSTJ_SingleItem()
     {
-        return SanitizePropertyValueUsingSTJ(_testJsons[0], _propertyName);
+        return MetadataJsonHelper.SanitizePropertyValueInJson(_testJsons[0], _propertyName);
     }
 
     [Benchmark]
@@ -143,7 +88,7 @@ public class JsonRewriteBenchmarks
     [Benchmark]
     public string SanitizeUsingSTJ_NoProperty()
     {
-        return SanitizePropertyValueUsingSTJ(_testJsons[2], _propertyName);
+        return MetadataJsonHelper.SanitizePropertyValueInJson(_testJsons[2], _propertyName);
     }   
 
 }

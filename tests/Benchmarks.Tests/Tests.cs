@@ -29,8 +29,8 @@ public class Tests
     public void JsonSanitizationMethodsProduceSameOutput(string json, string propertyName)
     {
         var resultFromJObject = JsonRewriteBenchmarks.SanitizePropertyValueUsingJObject(json, propertyName);
-        var resultFromSTJ = JsonRewriteBenchmarks.SanitizePropertyValueUsingSTJ(json, propertyName);
-        
+        var resultFromSTJ = MetadataJsonHelper.SanitizePropertyValueInJson(json, propertyName);
+
         Assert.Equal(resultFromJObject, resultFromSTJ);
     }
 }
