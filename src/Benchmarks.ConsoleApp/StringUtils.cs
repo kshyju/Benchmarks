@@ -2,48 +2,57 @@
 
 public static class StringUtils
 {
-    public static bool ContainsUsingStringSplit(string featureFlags, string tokenToSearchFor,char separator = ',')
+    public static HashSet<string> CreateHashSetUsingStringSplit (string input)
     {
-        if (!string.IsNullOrEmpty(featureFlags))
-        {
-            return featureFlags.Split(separator).Contains(tokenToSearchFor, StringComparer.OrdinalIgnoreCase);
-        }
-
-        return false;
+        return input.Split('|', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
+                    .ToHashSet(StringComparer.OrdinalIgnoreCase);
     }
 
-    public static bool ContainsToken(string delimitedString, string searchToken, char separator = ',', StringComparison comparisonType = StringComparison.OrdinalIgnoreCase)
+    public static HashSet<string> CreateHashSetOptimized(string input)
     {
-        if (string.IsNullOrEmpty(delimitedString) || string.IsNullOrEmpty(searchToken))
+        var s = input.AsSpan();
+        int cap = 1;
+        for (int k = 0; k < s.Length; k++)
         {
-            return false;
+            if (s[k] == '|') cap++;
         }
 
-        var remaining = delimitedString.AsSpan();
-        var searchSpan = searchToken.AsSpan();
+        var set = new HashSet<string>(cap, StringComparer.OrdinalIgnoreCase);
 
-        while (!remaining.IsEmpty)
+        int i = 0;
+        while (i <= s.Length)
         {
-            int separatorIndex = remaining.IndexOf(separator);
-            ReadOnlySpan<char> currentToken;
-
-            if (separatorIndex >= 0)
+            int j = s[i..].IndexOf('|');
+            ReadOnlySpan<char> part;
+            if (j < 0)
             {
-                currentToken = remaining.Slice(0, separatorIndex);
-                remaining = remaining.Slice(separatorIndex + 1);
+                part = s[i..];          
+                i = s.Length + 1;      
             }
             else
             {
-                currentToken = remaining;
-                remaining = default;
+                part = s.Slice(i, j);
+                i += j + 1;
             }
 
-            if (currentToken.Equals(searchSpan, comparisonType))
+            part = TrimWhitespace(part);
+
+            if (!part.IsEmpty)
             {
-                return true;
+                set.Add(part.ToString()); 
             }
         }
 
-        return false;
+        return set;
+    }
+
+    private static ReadOnlySpan<char> TrimWhitespace(ReadOnlySpan<char> span)
+    {
+        int start = 0, end = span.Length - 1;
+
+        while (start <= end && char.IsWhiteSpace(span[start])) start++;
+        while (end >= start && char.IsWhiteSpace(span[end])) end--;
+
+        return start > end ? [] : span.Slice(start, end - start + 1);
     }
 }
