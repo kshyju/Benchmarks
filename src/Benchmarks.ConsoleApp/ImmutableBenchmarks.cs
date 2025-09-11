@@ -33,7 +33,7 @@ public class ImmutableBenchmarks
     {
         if (inputs == null || inputs.Length == 0)
         {
-            return ImmutableDictionary<string, string>.Empty.WithComparers(StringComparer.OrdinalIgnoreCase);
+            return ImmutableDictionary<string, string>.Empty;
         }
 
         var builder = ImmutableDictionary.CreateBuilder<string, string>(StringComparer.OrdinalIgnoreCase);
@@ -49,7 +49,7 @@ public class ImmutableBenchmarks
     {
         if (inputs == null || inputs.Length == 0)
         {
-            return ImmutableDictionary<string, string>.Empty.WithComparers(StringComparer.OrdinalIgnoreCase);
+            return ImmutableDictionary<string, string>.Empty;
         }
 
         var dict = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
